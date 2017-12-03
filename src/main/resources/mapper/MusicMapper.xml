@@ -1,0 +1,388 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jwj.gqccc.dao.MusicMapper">
+  <resultMap id="BaseResultMap" type="com.jwj.gqccc.bean.Music">
+    <id column="mId" jdbcType="INTEGER" property="mid" />
+    <result column="mAddress" jdbcType="VARCHAR" property="maddress" />
+    <result column="mMusicName" jdbcType="VARCHAR" property="mmusicname" />
+    <result column="mCD" jdbcType="VARCHAR" property="mcd" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    mId, mAddress, mMusicName, mCD
+  </sql>
+  <select id="selectByExample" parameterType="com.jwj.gqccc.bean.MusicExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from tbl_music
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tbl_music
+    where mId = #{mid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tbl_music
+    where mId = #{mid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.jwj.gqccc.bean.MusicExample">
+    delete from tbl_music
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.jwj.gqccc.bean.Music">
+    insert into tbl_music (mId, mAddress, mMusicName, 
+      mCD)
+    values (#{mid,jdbcType=INTEGER}, #{maddress,jdbcType=VARCHAR}, #{mmusicname,jdbcType=VARCHAR}, 
+      #{mcd,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.jwj.gqccc.bean.Music">
+    insert into tbl_music
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="mid != null">
+        mId,
+      </if>
+      <if test="maddress != null">
+        mAddress,
+      </if>
+      <if test="mmusicname != null">
+        mMusicName,
+      </if>
+      <if test="mcd != null">
+        mCD,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="mid != null">
+        #{mid,jdbcType=INTEGER},
+      </if>
+      <if test="maddress != null">
+        #{maddress,jdbcType=VARCHAR},
+      </if>
+      <if test="mmusicname != null">
+        #{mmusicname,jdbcType=VARCHAR},
+      </if>
+      <if test="mcd != null">
+        #{mcd,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.jwj.gqccc.bean.MusicExample" resultType="java.lang.Long">
+    select count(*) from tbl_music
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update tbl_music
+    <set>
+      <if test="record.mid != null">
+        mId = #{record.mid,jdbcType=INTEGER},
+      </if>
+      <if test="record.maddress != null">
+        mAddress = #{record.maddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mmusicname != null">
+        mMusicName = #{record.mmusicname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mcd != null">
+        mCD = #{record.mcd,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update tbl_music
+    set mId = #{record.mid,jdbcType=INTEGER},
+      mAddress = #{record.maddress,jdbcType=VARCHAR},
+      mMusicName = #{record.mmusicname,jdbcType=VARCHAR},
+      mCD = #{record.mcd,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jwj.gqccc.bean.Music">
+    update tbl_music
+    <set>
+      <if test="maddress != null">
+        mAddress = #{maddress,jdbcType=VARCHAR},
+      </if>
+      <if test="mmusicname != null">
+        mMusicName = #{mmusicname,jdbcType=VARCHAR},
+      </if>
+      <if test="mcd != null">
+        mCD = #{mcd,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where mId = #{mid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jwj.gqccc.bean.Music">
+    update tbl_music
+    set mAddress = #{maddress,jdbcType=VARCHAR},
+      mMusicName = #{mmusicname,jdbcType=VARCHAR},
+      mCD = #{mcd,jdbcType=VARCHAR}
+    where mId = #{mid,jdbcType=INTEGER}
+  </update>
+  <resultMap id="BaseResultMap" type="com.jwj.gqccc.bean.Music">
+    <id column="mId" jdbcType="INTEGER" property="mid" />
+    <result column="mAddress" jdbcType="VARCHAR" property="maddress" />
+    <result column="mMusicName" jdbcType="VARCHAR" property="mmusicname" />
+    <result column="mCD" jdbcType="VARCHAR" property="mcd" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    mId, mAddress, mMusicName, mCD
+  </sql>
+  <select id="selectByExample" parameterType="com.jwj.gqccc.bean.MusicExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from tbl_music
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tbl_music
+    where mId = #{mid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tbl_music
+    where mId = #{mid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.jwj.gqccc.bean.MusicExample">
+    delete from tbl_music
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.jwj.gqccc.bean.Music">
+    insert into tbl_music (mId, mAddress, mMusicName, 
+      mCD)
+    values (#{mid,jdbcType=INTEGER}, #{maddress,jdbcType=VARCHAR}, #{mmusicname,jdbcType=VARCHAR}, 
+      #{mcd,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.jwj.gqccc.bean.Music">
+    insert into tbl_music
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="mid != null">
+        mId,
+      </if>
+      <if test="maddress != null">
+        mAddress,
+      </if>
+      <if test="mmusicname != null">
+        mMusicName,
+      </if>
+      <if test="mcd != null">
+        mCD,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="mid != null">
+        #{mid,jdbcType=INTEGER},
+      </if>
+      <if test="maddress != null">
+        #{maddress,jdbcType=VARCHAR},
+      </if>
+      <if test="mmusicname != null">
+        #{mmusicname,jdbcType=VARCHAR},
+      </if>
+      <if test="mcd != null">
+        #{mcd,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.jwj.gqccc.bean.MusicExample" resultType="java.lang.Long">
+    select count(*) from tbl_music
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update tbl_music
+    <set>
+      <if test="record.mid != null">
+        mId = #{record.mid,jdbcType=INTEGER},
+      </if>
+      <if test="record.maddress != null">
+        mAddress = #{record.maddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mmusicname != null">
+        mMusicName = #{record.mmusicname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mcd != null">
+        mCD = #{record.mcd,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update tbl_music
+    set mId = #{record.mid,jdbcType=INTEGER},
+      mAddress = #{record.maddress,jdbcType=VARCHAR},
+      mMusicName = #{record.mmusicname,jdbcType=VARCHAR},
+      mCD = #{record.mcd,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jwj.gqccc.bean.Music">
+    update tbl_music
+    <set>
+      <if test="maddress != null">
+        mAddress = #{maddress,jdbcType=VARCHAR},
+      </if>
+      <if test="mmusicname != null">
+        mMusicName = #{mmusicname,jdbcType=VARCHAR},
+      </if>
+      <if test="mcd != null">
+        mCD = #{mcd,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where mId = #{mid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jwj.gqccc.bean.Music">
+    update tbl_music
+    set mAddress = #{maddress,jdbcType=VARCHAR},
+      mMusicName = #{mmusicname,jdbcType=VARCHAR},
+      mCD = #{mcd,jdbcType=VARCHAR}
+    where mId = #{mid,jdbcType=INTEGER}
+  </update>
+</mapper>
